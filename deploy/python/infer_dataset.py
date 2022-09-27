@@ -207,7 +207,9 @@ def auto_tune(args, dataset, img_nums):
     input_names = predictor.get_input_names()
     input_handle = predictor.get_input_handle(input_names[0])
 
-    for idx, (img, _) in enumerate(dataset):
+    for idx, sample in enumerate(dataset):
+        img = sample['img']
+        label = sample['label']
         data = np.array([img])
         check_shape(data.shape, args)
         input_handle.reshape(data.shape)
@@ -250,7 +252,9 @@ class DatasetPredictor(Predictor):
         total_time = 0
         progbar_val = progbar.Progbar(target=len(dataset), verbose=1)
 
-        for idx, (img, label) in enumerate(dataset):
+        for idx, sample in enumerate(dataset):
+            img = sample['img']
+            label = sample['label']
             data = np.array([img])
             check_shape(data.shape, args)
             input_handle.reshape(data.shape)
